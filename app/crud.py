@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from . import models, schemas
+from sqlalchemy import func
 
 def create_order(db: Session, order: schemas.OrderCreate):
     db_order = models.Order(**order.dict())
@@ -11,9 +12,9 @@ def create_order(db: Session, order: schemas.OrderCreate):
 def list_orders(db: Session, skip: int = 0, limit: int = 10, status: str = None, customer_name: str = None):
     query = db.query(models.Order)
     if status:
-        query = query.filter(models.Order.status == status)
+        query = query.filter(func.lower(models.Order.status) == status.lower())
     if customer_name:
-        query = query.filter(models.Order.customer_name == customer_name)
+        query = query.filter(func.lower(models.Order.customer_name) == customer_name.lower())
     return query.offset(skip).limit(limit).all()
 
 def update_order_status(db: Session, order_id: int, status: str):

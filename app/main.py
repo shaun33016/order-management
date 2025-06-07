@@ -30,14 +30,14 @@ def read_order(order_id: int, db: Session = Depends(get_db)):
 def list_orders(
     skip: int = 0,
     limit: int = 10,
-    status: str = None,
-    customer_name: str = None,
+    status: str = Query(None),
+    customer_name: str = Query(None),
     db: Session = Depends(get_db)
 ):
     orders = crud.list_orders(db, skip=skip, limit=limit, status=status, customer_name=customer_name)
-# Adding the error message
+# Add error message
     if not orders:
-        raise HTTPException(status_code=404, detail="No orders found for the given filters")
+        raise HTTPException(status_code=404, detail="No matching orders found.")
     return orders
 
 
