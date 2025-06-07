@@ -1,4 +1,4 @@
-# rder Management Microservice
+# Order Management Microservice
 
 A lightweight microservice built with **FastAPI** and **PostgreSQL/SQLite** for managing customer orders. Supports features like order creation, status updates, filtering, pagination, and more.
 
@@ -53,3 +53,58 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 API will be live at: http://127.0.0.1:8000/docs
+
+## API Endpoints
+
+---
+
+| Method        | Endpoint              | Description                |
+|---------------|-----------------------|----------------------------|
+| POST          | `/orders/`            | Create a new order         |
+| GET           | `/orders/{order_id}`  | Retrieve a specific order  |
+| PUT           | `/orders/{order_id}`  | Update an order’s status   |
+| GET           | `/orders/`            | List orders with filters   |
+
+---
+
+## Sample API Usage
+
+### Create Order
+
+### ➕ Create Order
+
+**POST** `/orders/`
+
+```json
+{
+  "customer_name": "Ramesh",
+  "item_name": "TV",
+  "quantity": 1,
+  "status": "pending"
+}
+
+```
+----------
+### Get Order by ID
+
+**GET** `/orders/1`
+
+----------
+
+### Update Order Status
+
+**PUT** `/orders/1`
+
+```json
+{
+  "status": "shipped"
+}
+
+```
+----------
+
+### 📋 List Orders with Pagination & Filtering
+
+**GET** `/orders/?status=shipped&skip=0&limit=5`
+
+----------
