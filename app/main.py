@@ -2,6 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from . import models, schemas, crud
 from .database import SessionLocal, engine
+from fastapi import Query
 
 # Ensure tables are created
 models.Base.metadata.create_all(bind=engine)
@@ -29,14 +30,16 @@ def read_order(order_id: int, db: Session = Depends(get_db)):
 def list_orders(
     skip: int = 0,
     limit: int = 10,
-    customer_name: str = None,
     status: str = None,
-    item_name: str = None,
-    db: Session = Depends(get_db),
+    customer_name: str = None,
+    db: Session = Depends(get_db)
 ):
-    return crud.list_orders(
-        db, skip=skip, limit=limit, customer_name=customer_name, status=status, item_name=item_name
-    )
+    orders = crud.list_orders(db, skip=skip, limit=limit, status=status, customer_name=customer_name)
+# Adding the error message
+    if not orders:
+        raise HTTPException(status_code=404, detail="No orders found for the given filters")
+    return orders
+
 
 @app.put("/orders/{order_id}", response_model=schemas.OrderOut)
 def update_status(order_id: int, update: schemas.OrderUpdate, db: Session = Depends(get_db)):

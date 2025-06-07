@@ -8,16 +8,12 @@ def create_order(db: Session, order: schemas.OrderCreate):
     db.refresh(db_order)
     return db_order
 
-def list_orders(db: Session, skip: int = 0, limit: int = 10, customer_name: str = None, status: str = None, item_name: str = None):
+def list_orders(db: Session, skip: int = 0, limit: int = 10, status: str = None, customer_name: str = None):
     query = db.query(models.Order)
-
-    if customer_name:
-        query = query.filter(models.Order.customer_name.ilike(f"%{customer_name}%"))
     if status:
         query = query.filter(models.Order.status == status)
-    if item_name:
-        query = query.filter(models.Order.item_name.ilike(f"%{item_name}%"))
-
+    if customer_name:
+        query = query.filter(models.Order.customer_name == customer_name)
     return query.offset(skip).limit(limit).all()
 
 def update_order_status(db: Session, order_id: int, status: str):
