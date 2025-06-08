@@ -1,6 +1,6 @@
 # Order Management Microservice
 
-A lightweight microservice built with **FastAPI** and **PostgreSQL/SQLite** for managing customer orders. Supports features like order creation, status updates, filtering, pagination, and more.
+A lightweight microservice built with **FastAPI** and **SQLite** for managing customer orders. Supports features like order creation, status updates, filtering, pagination, and more.
 
 ---
 
@@ -23,10 +23,11 @@ A lightweight microservice built with **FastAPI** and **PostgreSQL/SQLite** for 
 | DB            | SQLite             |
 | Validation    | Pydantic           |
 | Dev Tools     | Uvicorn, GitHub    |
+| Deployment    | Docker, AWS EC2    |
 
 ---
 
-## Setup Instructions
+## Setup Instructions (Local)
 
 ### 1. Clone the Repo
 
@@ -53,6 +54,32 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 API will be live at: http://127.0.0.1:8000/docs
+
+---
+
+## Running with Docker
+
+### 1. Build Docker Image
+```bash
+docker build -t order-management .
+```
+
+### 2. Run the Container
+``` bash
+docker run -d -p 8000:8000 order-management
+```
+Visit: http://localhost:8000/docs
+
+---
+
+## Deploy on AWS EC2
+
+Public IP: `http://<your-ec2-ip>:8000/docs`
+(Replace with your real EC2 IP)
+
+Ensure port 8000 is open in EC2 security group
+
+---
 
 ## API Endpoints
 
@@ -118,14 +145,14 @@ API will be live at: http://127.0.0.1:8000/docs
 
 #### 🔍 Query Parameters:
 
--   `status`: Filter orders by status (e.g., `pending`, `shipped`, `delivered`)
+-   `status`: Filter orders by status
     
 -   `skip`: Number of records to skip (for pagination)
     
 -   `limit`: Max number of records to return
     
 
-#### 💡 Example Response:
+#### Example Response:
 
 ```json
 [
@@ -156,4 +183,11 @@ API will be live at: http://127.0.0.1:8000/docs
 ]
 
 ```
+---
+
+## Optional Features Implemented
+
+-   Dockerized microservice
+-   Deployed on AWS EC2
+
 ----------
