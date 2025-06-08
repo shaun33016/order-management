@@ -185,6 +185,18 @@ Ensure port 8000 is open in EC2 security group
 ```
 ---
 
+## Running Tests
+
+This project includes unit tests for core functionality like order creation, retrieval, status updates, and filtering.
+
+To run the tests:
+
+```bash
+pytest
+```
+
+---
+
 ## Optional Features Implemented
 
 -   Dockerized microservice
